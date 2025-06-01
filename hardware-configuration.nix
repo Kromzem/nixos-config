@@ -47,34 +47,34 @@
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
     # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = ["modesetting" "nvidia"];
 
   services.power-profiles-daemon.enable = false;
-  services.tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+  # services.tlp = {
+  #     enable = true;
+  #     settings = {
+  #       CPU_SCALING_GOVERNOR_ON_AC = "performance";
+  #       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+  #       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+  #       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 100;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
+  #       CPU_MIN_PERF_ON_AC = 0;
+  #       CPU_MAX_PERF_ON_AC = 100;
+  #       CPU_MIN_PERF_ON_BAT = 0;
+  #       CPU_MAX_PERF_ON_BAT = 20;
 
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT0 = 40; # 40 and below it starts to charge
-       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+  #      #Optional helps save long term battery health
+  #      START_CHARGE_THRESH_BAT0 = 40; # 40 and below it starts to charge
+  #      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
 
-      };
-  };
+  #     };
+  # };
 
   hardware.asus.battery = {
     chargeUpto = 90;   # Maximum level of charge for your battery, as a percentage.
@@ -120,7 +120,9 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
     prime = {
-      sync.enable = true;
+      offload.enable = true;
+      offload.enableOffloadCmd = true;
+      # sync.enable = true;
   		# Make sure to use the correct Bus ID values for your system!
   		intelBusId = "PCI:0:2:0";
   		nvidiaBusId = "PCI:2:0:0";

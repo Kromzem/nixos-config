@@ -17,6 +17,7 @@
   nixpkgs.config.allowUnfree = true;
   
   services.logind.extraConfig = "HandleLidSwitch=hibernate";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   networking.hostName = "palikin-laptop"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -24,11 +25,14 @@
   # networking.wireless.userControlled.enable = true;
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
+  fonts.packages = [ pkgs.font-awesome pkgs.jetbrains-mono];
   
   programs.niri.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
+
+
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -47,7 +51,7 @@
 
   services.xserver = {
     enable = true;
-    desktopManager.gnome.enable = true;
+    # desktopManager.gnome.enable = true;
     # displayManager.gdm.enable = true;
     displayManager.gdm = {
       enable = true;
@@ -130,10 +134,21 @@
     flatpak
     gnome-software
     nixd
+    alacritty
+    fuzzel
+    swaylock
+    swaybg
+    waybar
+    xwayland-satellite
+    font-awesome
+    killall
+    mako
+    xdg-desktop-portal
+    xdg-desktop-portal-gnome
     # kitty
   ];
 
-  environment.variables.EDITOR = "helix";
+  environment.variables.EDITOR = "hx";
 
   # programs.hyprland = {
   #   # Install the packages from nixpkgs
