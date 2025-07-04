@@ -15,6 +15,7 @@
   boot.extraModulePackages = [ ];
   boot.kernelParams = ["resume_offset=6510592"];
   boot.resumeDevice = "/dev/disk/by-uuid/397c4d93-92af-4f92-a12d-18e89d7c157a";
+  boot.supportedFilesystems = [ "ntfs" ];
 
   powerManagement.enable = true;
 
@@ -54,7 +55,7 @@
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["modesetting" "nvidia"];
 
-  services.power-profiles-daemon.enable = false;
+  # services.power-profiles-daemon.enable = false;
   # services.tlp = {
   #     enable = true;
   #     settings = {
@@ -83,7 +84,7 @@
   
   hardware.bluetooth = {
     enable = true;
-    powerOnBoot = true;
+    # powerOnBoot = true;
 
     settings.General.Enable = "Source,Sink,Media,Socket";  
   };

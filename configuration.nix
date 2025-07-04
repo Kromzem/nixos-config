@@ -32,7 +32,7 @@
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
-
+  services.blueman.enable = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -102,7 +102,7 @@
       brave
       libreoffice
       # tutanota-desktop
-      # bitwarden-desktop#
+      bitwarden-desktop
       protontricks
       android-tools
       jetbrains-toolbox
@@ -110,6 +110,7 @@
       gcc
       google-chrome
       discord
+      freetube
       # rpi-imager   
     ];
   };
@@ -132,7 +133,6 @@
     wget
     helix
     flatpak
-    gnome-software
     nixd
     alacritty
     fuzzel
@@ -145,8 +145,12 @@
     mako
     xdg-desktop-portal
     xdg-desktop-portal-gnome
+    nautilus
+    gparted
     # kitty
   ];
+
+  services.gvfs.enable = true;
 
   environment.variables.EDITOR = "hx";
 
