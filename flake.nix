@@ -1,19 +1,32 @@
-
 {
+  description = "Entry flake";
+
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
-  outputs = { nixpkgs, home-manager, ... }: {
+
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+    nixosConfigurations.hydra = nixpkgs.lib.nixosSystem  {
+      system = "x86_x64-linux";
+
+      specialArgs = {
+        inherit inputs;
+      };
+      modules = [      
+        ./hosts/hydra
+      ];
+    };
+
+    
     nixosConfigurations.palikin-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./configuration.nix
-        ./virtualisation.nix
+        ./hosts/laptop
 
         # make home-manager as a module of nixos
         # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
