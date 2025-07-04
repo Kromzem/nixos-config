@@ -6,6 +6,9 @@
     enable = true;
     userName = "kromzem";
     userEmail = "palikin@tutamail.com";
+    extraConfig = {
+      pull.rebase = false;
+    };
   };
 
   programs.bash = {
