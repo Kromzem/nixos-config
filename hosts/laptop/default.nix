@@ -112,6 +112,7 @@
       google-chrome
       discord
       freetube
+      gitui
       # rpi-imager   
     ];
   };

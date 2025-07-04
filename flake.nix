@@ -10,14 +10,20 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  let
+    commonModules = [
+      ./common
+    ];
+  in
+  {
     nixosConfigurations.hydra = nixpkgs.lib.nixosSystem  {
       system = "x86_x64-linux";
 
       specialArgs = {
         inherit inputs;
       };
-      modules = [      
+      modules = commonModules ++ [      
         ./hosts/hydra
       ];
     };
@@ -25,7 +31,7 @@
     
     nixosConfigurations.palikin-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
+      modules = commonModules ++ [
         ./hosts/laptop
 
         # make home-manager as a module of nixos
@@ -36,7 +42,7 @@
           home-manager.useUserPackages = true;
 
           # TODO replace ryan with your own username
-          home-manager.users.palikin = import ./home.nix;
+          home-manager.users.palikin = import ./hosts/laptop/home.nix;
 
           # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
         }
