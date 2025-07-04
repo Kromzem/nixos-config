@@ -5,7 +5,7 @@
     ./i18n.nix
     ./ssh.nix
     ./networking.nix
-    ./nh.nix
+    # ./nh.nix
     ./performance.nix
     # ./reverse-proxy.nix
     # ./wireguard.nix
