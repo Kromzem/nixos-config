@@ -47,6 +47,8 @@
       zellij
       htop
       s-tui
+      gitui
+      git
     ];
   };
 
