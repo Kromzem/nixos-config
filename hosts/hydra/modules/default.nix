@@ -6,7 +6,7 @@
     ./ssh.nix
     ./networking.nix
     ./nh.nix
-    ./performance.nix
+    # ./performance.nix
     # ./reverse-proxy.nix
     # ./wireguard.nix
     # ./containers

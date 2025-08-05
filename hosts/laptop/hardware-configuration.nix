@@ -53,7 +53,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["modesetting" "nvidia"];
+  services.xserver.videoDrivers = ["intel" "modesetting" "nvidia"];
 
   # services.power-profiles-daemon.enable = false;
   # services.tlp = {
@@ -120,14 +120,15 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+    dynamicBoost.enable = false;
+
     prime = {
-      offload.enable = true;
-      offload.enableOffloadCmd = true;
-      # sync.enable = true;
+      # offload.enable = true;
+      # offload.enableOffloadCmd = true;
+      sync.enable = true;
   		# Make sure to use the correct Bus ID values for your system!
   		intelBusId = "PCI:0:2:0";
   		nvidiaBusId = "PCI:2:0:0";
-                  # amdgpuBusId = "PCI:54:0:0"; For AMD GPU
   	};
   };
 }

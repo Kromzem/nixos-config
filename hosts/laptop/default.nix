@@ -14,11 +14,12 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = ["nfs"];
 
   nixpkgs.config.allowUnfree = true;
   
   services.logind.extraConfig = "HandleLidSwitch=hibernate";
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   networking.hostName = "palikin-laptop"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -28,7 +29,7 @@
 
   fonts.packages = [ pkgs.font-awesome pkgs.jetbrains-mono];
   
-  programs.niri.enable = true;
+  # programs.niri.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -50,15 +51,29 @@
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
+    # services.desktopManager.lomiri.enable = true;
+    # services.displayManager.defaultSession = "lomiri";
+
+  # services.xserver = {
+  #   enable = true;
+  #   desktopManager = {
+  #     xfce.enable = true;
+  #     xterm.enable = false;
+  #   };
+  #   xkb.layout = "de";
+  # };
+  # services.displayManager.defaultSession = "xfce";
+
   services.xserver = {
     enable = true;
-    # desktopManager.gnome.enable = true;
-    # displayManager.gdm.enable = true;
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
-    xkb.layout = "de";
+
+  desktopManager.gnome.enable = true;
+  # displayManager.gdm.enable = true;
+  displayManager.gdm = {
+    enable = true;
+    wayland = false;
+  };
+  xkb.layout = "de";
   };  
 
 #   programs.hyprland = {
@@ -100,7 +115,7 @@
       "docker"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      brave
+      # brave
       libreoffice
       # tutanota-desktop
       bitwarden-desktop
@@ -109,12 +124,16 @@
       jetbrains-toolbox
       rustup
       gcc
-      google-chrome
+      # google-chrome
       discord
       freetube
       gitui
+      mediathekview
+      appimage-run
+      moonlight-qt
+      librewolf
       # rpi-imager   
-    ];
+   ];
   };
 
   virtualisation.docker.enable = true;
@@ -137,22 +156,22 @@
     flatpak
     nixd
     alacritty
-    fuzzel
-    swaylock
-    swaybg
-    waybar
-    xwayland-satellite
+    # fuzzel
+    # swaylock
+    # swaybg
+    # waybar
+    # xwayland-satellite
     font-awesome
     killall
-    mako
-    xdg-desktop-portal
-    xdg-desktop-portal-gnome
-    nautilus
+    # mako
+    # xdg-desktop-portal
+    # xdg-desktop-portal-gnome
+    # nautilus
     gparted
     # kitty
   ];
 
-  services.gvfs.enable = true;
+  # services.gvfs.enable = true;
 
   environment.variables.EDITOR = "hx";
 
