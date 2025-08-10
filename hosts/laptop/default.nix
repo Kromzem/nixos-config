@@ -7,8 +7,11 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      # ./hardware-configuration.nix
+      ./hardware-configuration-default.nix
       ./virtualisation.nix
+      # ./xfce.nix
+      ./niri.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -18,27 +21,19 @@
 
   nixpkgs.config.allowUnfree = true;
   
-  services.logind.extraConfig = "HandleLidSwitch=hibernate";
-  # environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  # services.logind.extraConfig = "HandleLidSwitch=hibernate";
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   networking.hostName = "palikin-laptop"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.wireless.userControlled.enable = true;
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   fonts.packages = [ pkgs.font-awesome pkgs.jetbrains-mono];
   
-  # programs.niri.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
   services.blueman.enable = true;
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "de_DE.UTF-8";
@@ -52,8 +47,19 @@
   # services.xserver.enable = true;
 
     # services.desktopManager.lomiri.enable = true;
-    # services.displayManager.defaultSession = "lomiri";
+    services.displayManager.ly.enable = true;
+    services.displayManager.defaultSession = "niri";
 
+  services.power-profiles-daemon.enable = true;
+  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.powerKey = "hibernate";
+  services.logind.powerKeyLongPress = "poweroff";
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=5m
+    SuspendState=mem
+  '';
+  
+    
   # services.xserver = {
   #   enable = true;
   #   desktopManager = {
@@ -64,18 +70,23 @@
   # };
   # services.displayManager.defaultSession = "xfce";
 
-  services.xserver = {
-    enable = true;
+  # services.xserver = {
+  #   enable = true;
 
-  desktopManager.gnome.enable = true;
-  # displayManager.gdm.enable = true;
-  displayManager.gdm = {
-    enable = true;
-    wayland = false;
-  };
-  xkb.layout = "de";
-  };  
+  #   desktopManager.gnome.enable = true;
+  #   # displayManager.gdm.enable = true;
+  #   displayManager.gdm = {
+  #     enable = true;
+  #     wayland = false;
+  #   };
+  #   xkb.layout = "de";
+  # };  
 
+  
+  services.xserver.xkb.layout = "de";
+  services.libinput.enable = false;
+  services.xserver.synaptics.enable = true;
+ 
 #   programs.hyprland = {
 #     enable = true;
 #     xwayland = {
@@ -115,16 +126,13 @@
       "docker"
     ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      # brave
       libreoffice
-      # tutanota-desktop
       bitwarden-desktop
       protontricks
       android-tools
       jetbrains-toolbox
       rustup
       gcc
-      # google-chrome
       discord
       freetube
       gitui
@@ -132,7 +140,6 @@
       appimage-run
       moonlight-qt
       librewolf
-      # rpi-imager   
    ];
   };
 
@@ -156,59 +163,38 @@
     flatpak
     nixd
     alacritty
-    # fuzzel
-    # swaylock
-    # swaybg
-    # waybar
-    # xwayland-satellite
+    fuzzel
+    swaylock
+    swaybg
+    waybar
+    xwayland-satellite
     font-awesome
     killall
     # mako
-    # xdg-desktop-portal
-    # xdg-desktop-portal-gnome
-    # nautilus
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-gnome
+    nautilus
     gparted
     # kitty
+    # nvidia-vaapi-driver
+    # libva
+    # libva-utils
+    # libvdpau
+    # libvdpau-va-gl
   ];
 
-  # services.gvfs.enable = true;
+  services.gvfs.enable = true;
 
-  environment.variables.EDITOR = "hx";
-
-  # programs.hyprland = {
-  #   # Install the packages from nixpkgs
-  #   enable = true;
-  #   # Whether to enable XWayland
-  #   xwayland.enable = true;
-  # };
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  environment.variables = {
+    EDITOR = "hx";
+  };
+  # environment.variables.EDITOR = "hx";
 
   programs = {
     steam.enable = true;
     adb.enable = true;
   };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

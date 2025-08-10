@@ -4,38 +4,37 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ 
-    (modulesPath + "/installer/scan/not-detected.nix")
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
     ./battery.nix
-  ];
+    ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" "nvidia_drm" "nvidia_modeset" "nvidia" "nvidia_uvm" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = ["resume_offset=6510592"];
-  boot.resumeDevice = "/dev/disk/by-uuid/397c4d93-92af-4f92-a12d-18e89d7c157a";
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.kernelParams = ["mem_sleep_default=deep" "resume_offset=76064768"];
+  boot.resumeDevice = "/dev/disk/by-uuid/ea674689-68d0-46b7-b5e1-c0e55df44fce";
 
-  powerManagement.enable = true;
+  # powerManagement.enable = true;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/397c4d93-92af-4f92-a12d-18e89d7c157a";
+    { device = "/dev/disk/by-uuid/ea674689-68d0-46b7-b5e1-c0e55df44fce";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/621B-C33E";
+    { device = "/dev/disk/by-uuid/68A3-A130";
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
     };
 
-  swapDevices =
-    [ { 
+  swapDevices = [  
+    {
       device = "/var/lib/swapfile";
       size = 16 * 1024;
-       }
-    ];
+    }
+  ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -53,7 +52,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["intel" "modesetting" "nvidia"];
+  services.xserver.videoDrivers = ["modesetting" "nvidia"];
 
   # services.power-profiles-daemon.enable = false;
   # services.tlp = {
@@ -123,9 +122,9 @@
     dynamicBoost.enable = false;
 
     prime = {
-      # offload.enable = true;
-      # offload.enableOffloadCmd = true;
-      sync.enable = true;
+      offload.enable = true;
+      offload.enableOffloadCmd = true;
+      # sync.enable = true;
   		# Make sure to use the correct Bus ID values for your system!
   		intelBusId = "PCI:0:2:0";
   		nvidiaBusId = "PCI:2:0:0";

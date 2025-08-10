@@ -2,14 +2,23 @@
   home.username = "palikin";
   home.homeDirectory = "/home/palikin";
 
-  programs.git = {
-    enable = true;
-    userName = "kromzem";
-    userEmail = "palikin@tutamail.com";
-    extraConfig = {
-      pull.rebase = false;
+  programs = {
+    # alacritty.enable = true;
+    # fuzzel.enable = true;
+    # swaylock.enable = true;
+    # waybar.enable = true;
+    git = {
+      enable = true;
+      userName = "kromzem";
+      userEmail = "palikin@tutamail.com";
+      extraConfig = {
+        pull.rebase = false;
+      };
     };
   };
+
+  services.mako.enable = true;
+  services.swayidle.enable = true;
 
   programs.bash = {
     enable = true;
