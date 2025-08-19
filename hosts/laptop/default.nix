@@ -140,6 +140,7 @@
       appimage-run
       moonlight-qt
       librewolf
+      nomacs
    ];
   };
 
