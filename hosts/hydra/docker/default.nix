@@ -7,7 +7,11 @@
     ./jellyfin.nix
     ./jelly-app.nix
     ./planar_ally.nix
-    # ./actual.nix
+    ./wishlist.nix
+    ./gotify.nix
+    ./karakeep.nix
+    # ./expense_owl.nix
+    ./actual.nix
     # ./it-tools.nix # does not start as of 12.06.2025
     # ./jellyfin.nix
   ];

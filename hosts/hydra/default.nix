@@ -35,6 +35,21 @@
     variant = "";
   };
 
+  
+  # services.pipewire = {
+  #   enable = true;
+  #   pulse.enable = true;
+  # };
+
+  
+  # hardware.pulseaudio.enable = true;
+  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
+  # services.pulseaudio = {
+  #   enable = true;
+  #   package = pkgs.pulseaudioFull;
+  # };
+  # services.pipewire.enable = false;
+
   # Configure console keymap
   console.keyMap = "de";
 
@@ -42,7 +57,7 @@
   users.users.palikin = {
     isNormalUser = true;
     description = "palikin";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "cdrom" ];
     packages = with pkgs; [
       zellij
       htop
@@ -62,6 +77,7 @@
   environment.systemPackages = with pkgs; [
     helix
     nixd
+    compose2nix
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
