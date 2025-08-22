@@ -25,6 +25,7 @@
       };
       modules = commonModules ++ [      
         ./hosts/hydra
+        ./common/performance.nix
       ];
     };
 
@@ -33,6 +34,7 @@
       system = "x86_64-linux";
       modules = commonModules ++ [
         ./hosts/laptop
+        # ./common/performance.nix
 
         # make home-manager as a module of nixos
         # so that home-manager configuration will be deployed automatically when executing `nixos-rebuild switch`
