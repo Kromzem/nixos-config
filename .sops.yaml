@@ -1,0 +1,8 @@
+keys:
+  - &hydra age1mklgj9ughxwwcylzr6s7ues4s58d5k38256ujw8pazujpfxaucqqqfsq8z
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+    - age:
+      - *hydra
+

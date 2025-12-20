@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -16,17 +12,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-
-
-  # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
   # Configure keymap in X11
@@ -35,25 +20,9 @@
     variant = "";
   };
 
-  
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  
-  # hardware.pulseaudio.enable = true;
-  # hardware.pulseaudio.package = pkgs.pulseaudioFull;
-  # services.pulseaudio = {
-  #   enable = true;
-  #   package = pkgs.pulseaudioFull;
-  # };
-  # services.pipewire.enable = false;
-
   # Configure console keymap
   console.keyMap = "de";
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.palikin = {
     isNormalUser = true;
     description = "palikin";
@@ -72,31 +41,22 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    helix
-    nixd
-    compose2nix
-  ];
+  environment = {
+    variables = {
+      EDITOR = "hx";
+    };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
+    
+    systemPackages = with pkgs; [
+      helix
+      nixd
+      compose2nix
+      sops
+      age
+    ];
+  };
 
   services.logind.lidSwitch = "lock";
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

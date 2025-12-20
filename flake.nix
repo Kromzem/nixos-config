@@ -8,9 +8,14 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, sops-nix, ... }@inputs:
   let
     commonModules = [
       ./common
@@ -34,6 +39,7 @@
       system = "x86_64-linux";
       modules = commonModules ++ [
         ./hosts/laptop
+        # sops-nix.nixosModules.sops
         # ./common/performance.nix
 
         # make home-manager as a module of nixos

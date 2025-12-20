@@ -13,11 +13,13 @@ in
     image = "jellyfin/jellyfin:latest";
     ports = [
       "8096:8096"
+      "1900:1900/udp"
     ];
     volumes = [
       "${config_dir}:/config"
       "${cache_dir}:/cache"
-      "/mnt/media:/media"
+      "/mnt/nessie/Media:/media"
     ];
+    extraOptions = ["--network=host"];
   };
 }

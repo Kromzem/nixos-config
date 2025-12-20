@@ -12,6 +12,7 @@ in
     image = "ghcr.io/fallenbagel/jellyseerr:latest";
     environment = {
       "TZ" = "Europe/Berlin";
+      "LOG_LEVEL" = "info";
     };
     ports = [
       "8097:5055"

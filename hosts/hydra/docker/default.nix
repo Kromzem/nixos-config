@@ -1,7 +1,7 @@
 { ... }: 
 {
   imports = [
-    ./dashy.nix
+    # ./dashy.nix
     # ./satisfactory.nix
     ./stirling_pdf.nix
     ./jellyfin.nix
@@ -21,6 +21,7 @@
     # ./fdm_server.nix
     ./navidrome.nix
     ./jellyseerr.nix
+    ./mybibliotheca.nix
   ];
 
   virtualisation.oci-containers.backend = "docker";
