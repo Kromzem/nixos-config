@@ -6,6 +6,5 @@
     ./ssh.nix
     ./networking.nix
     ./systemd.nix
-    # ./restic.nix
   ];
 }
