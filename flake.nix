@@ -26,7 +26,7 @@
       system = "x86_x64-linux";
 
       specialArgs = {
-        inherit inputs;
+        inherit inputs self;
       };
       modules = commonModules ++ [      
         ./hosts/hydra

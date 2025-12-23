@@ -13,6 +13,10 @@
       restic_repo_password = {
         owner = "palikin";
       };  
+
+      gotify_backup_api_key = {
+        owner = "palikin";
+      };
     };
   };
 }
