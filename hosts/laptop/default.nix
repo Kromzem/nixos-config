@@ -12,6 +12,7 @@
       ./virtualisation.nix
       # ./xfce.nix
       ./niri.nix
+      ./modules
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -29,7 +30,9 @@
 
   fonts.packages = [ pkgs.font-awesome pkgs.jetbrains-mono];
   
-
+  hardware.xone.enable = true;
+  programs.gamemode.enable = true;
+  
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -82,6 +85,17 @@
   #   xkb.layout = "de";
   # };  
 
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = true;
+      AllowUsers = ["palikin"]; # Allows all users by default. Can be [ "user1" "user2" ]
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "yes"; # "yes", "without-password", "prohibit-password", "forced-commands-only", "no"
+    };
+  };
   
   services.xserver.xkb.layout = "de";
   services.libinput.enable = false;
@@ -141,6 +155,11 @@
       moonlight-qt
       librewolf
       nomacs
+      zed-editor
+      rclone
+      vlc
+      losslesscut-bin
+      ffmpeg
    ];
   };
 
@@ -177,6 +196,8 @@
     xdg-desktop-portal-gnome
     nautilus
     gparted
+    zellij
+    file-roller
     # kitty
     # nvidia-vaapi-driver
     # libva

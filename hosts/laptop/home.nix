@@ -1,11 +1,26 @@
-{ config, pkgs, ...}: {
+{ config, pkgs, inputs, ...}: {
+  imports = [
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.default
+    inputs.niri.homeModules.niri
+    inputs.dankMaterialShell.homeModules.dankMaterialShell.niri
+  ]; 
+
   home.username = "palikin";
   home.homeDirectory = "/home/palikin";
+
+  programs.dankMaterialShell = {
+    enable = true;
+
+    niri = {
+      enableKeybinds = true;   # Automatic keybinding configuration
+      enableSpawn = true;      # Auto-start DMS with niri
+    };
+  };
 
   programs = {
     # alacritty.enable = true;
     # fuzzel.enable = true;
-    # swaylock.enable = true;
+    # swaylock.enable =imports true;
     # waybar.enable = true;
     git = {
       enable = true;

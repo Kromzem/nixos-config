@@ -2,10 +2,26 @@
   description = "Entry flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-25.11";
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    dankMaterialShell = {
+      url = "github:AvengeMedia/DankMaterialShell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.dgop.follows = "dgop";
+    };
+
+    niri = {
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -37,6 +53,11 @@
     
     nixosConfigurations.palikin-laptop = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+
+      specialArgs = {
+        inherit inputs;
+      };
+      
       modules = commonModules ++ [
         ./hosts/laptop
         # sops-nix.nixosModules.sops
@@ -49,9 +70,11 @@
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
 
-          # TODO replace ryan with your own username
           home-manager.users.palikin = import ./hosts/laptop/home.nix;
 
+          home-manager.extraSpecialArgs = {
+            inherit inputs;
+          };
           # Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
         }
       ];

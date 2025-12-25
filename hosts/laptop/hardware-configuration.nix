@@ -82,13 +82,6 @@
     enableChargeUptoScript = true; # Whether to add charge-upto to environment.systemPackages. `charge-upto 100` temporarily sets the charge limit to 100%, useful if you're going to need the extra battery on a longer journey.
   };
   
-  hardware.bluetooth = {
-    enable = true;
-    # powerOnBoot = true;
-
-    settings.General.Enable = "Source,Sink,Media,Socket";  
-  };
-  
   hardware.nvidia = {
 
     # Modesetting is required.
