@@ -1,0 +1,4 @@
+#recycle
+*.partial
+@eaDir
+jellyfin/cache

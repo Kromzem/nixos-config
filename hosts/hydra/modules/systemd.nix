@@ -22,8 +22,12 @@ in
     ];
     script = ''
       ${pkgs.coreutils}/bin/pwd
+      
       ${pkgs.bash}/bin/bash ${self}/scripts/send_notification.sh ${push_password} "Cloud-Backup" "[START] Upload"
-      ${pkgs.restic}/bin/restic -r ${resticRepo} backup ./
+      
+      ${pkgs.restic}/bin/restic -r ${resticRepo} unlock
+      ${pkgs.restic}/bin/restic -r ${resticRepo} --compression=max --exclude-file=${self}/restic-exclude.txt backup ./
+
       if [ $? -eq 0 ]; then
         ${pkgs.bash}/bin/bash ${self}/scripts/send_notification.sh ${push_password} "Cloud-Backup" "[COMPLETED] Upload"
       else
@@ -31,7 +35,10 @@ in
       fi
 
       ${pkgs.bash}/bin/bash ${self}/scripts/send_notification.sh ${push_password} "Cloud-Backup" "[START] Cleanup"
+      
+      ${pkgs.restic}/bin/restic -r ${resticRepo} unlock
       ${pkgs.restic}/bin/restic -r ${resticRepo} forget --prune --keep-last 2
+
       if [ $? -eq 0 ]; then
         ${pkgs.bash}/bin/bash ${self}/scripts/send_notification.sh ${push_password} "Cloud-Backup" "[COMPLETED] Cleanup"
       else
@@ -52,7 +59,7 @@ in
   systemd.timers.restic-backup = {
     description = "Runs Restic Backup Daily";
     timerConfig = {
-      OnCalendar = "daily";
+      OnCalendar = "*-*-* 03:00:00";
       Persistent = true;
     };
     wantedBy = [ "timers.target" ];
